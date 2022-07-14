@@ -64,7 +64,7 @@ function game() {
         // plays one round, and returns a string stating who won and stores in a variable
         let matchResult = playRound(userSelection, computerPlay());
 
-        //seaches if the string has 'You won' or 'You lost' and adds a point accordingly
+        //seaches if the string returned by playRound has 'You won' or 'You lost' and adds a point accordingly
         if(matchResult.search('You won') >= 0){
             userPoints+=1;
             console.log("You win a point!");
