@@ -3,19 +3,28 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Paper Rock Scissors</title>
+        <title>Rock Paper Scissors</title>
         <script src="script.js"></script>
+        <script src="jQueryScript.js"></script>
         <link href="style.css" rel="stylesheet"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/b3f883f52e.js" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body class="bg-primary">
+
+        <h1>Pick one! May the best one win</h1>
+
         <div class="card-container">
-            <button id="paper"></button>
-            <button id="rock"></button>
-            <button id="scissors"></button>
+            <button id="rock-btn" class="btn btn-success"><img class="img-responsive" src="./icons/rock-icon.svg"alt="g"></button>
+            <button id="paper-btn" class="btn btn-warning"><img class="img-responsive" src="./icons/paper-icon.svg"alt="g"></button>
+            <button id="scissors-btn" class="btn btn-danger"><img class="img-responsive" src="./icons/scissors-icon.svg"alt="g"></button>
         </div>
+        
+        <h2>Disply Message here</h2>
+
+        <p>Your score: </p>
+        <p>Computer score: </p>
     </body>
 </html>
