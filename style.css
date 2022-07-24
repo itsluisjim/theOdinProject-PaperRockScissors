@@ -13,10 +13,18 @@ body {
     gap: 20px;
   
 }
-#paper-btn, #rock-btn, #scissors-btn {
+#paper, #rock, #scissors {
     width: 200px;
     height: 200px;
     padding: 20px;
     border-radius: 25px;
     color: black;
+}
+#message {
+    background-color: #f4f4f4;
+    color: black;
+    font-size: 18px;
+} 
+img {
+    pointer-events: none;
 }

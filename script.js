@@ -1,17 +1,40 @@
+const btn = document.querySelectorAll('button');
+btn.forEach(item => item.addEventListener('click', playRound))
+
+//used to display the message
+let message = document.getElementById('message');
+
+//used to display current score
+let userTally = document.getElementById('userPoints');
+let computerTally = document.getElementById('computerPoints');
+
+// keeps track of user and computers points
+let userPoints = 0;
+let computerPoints= 0;
+
 // computerPlay() randonly picks a choice for the computer
 function computerPlay(){
     const gameChoices = ['paper','rock','scissors'];
-
     let computerOption = gameChoices[Math.floor(Math.random() * 3)];
-
     return computerOption;
 }
-/* playRound() takes user choice and the randomly generated choice for
-the computer as arguments and returns a string stating who won and why they won */
-function playRound (playerSelection, computerSelection){
+function addPoint(whoWonMessage){
+    if(whoWonMessage.search('You won') >= 0){
+        userPoints+=1;
+        userTally.textContent = `${userPoints}`;
+    }
+    else if(whoWonMessage.search('You lost') >= 0){
+        computerPoints+=1;
+        computerTally.textContent = `${computerPoints}`;
+    }
+}
 
-    if(playerSelection == 'rock'){
-        switch(computerSelection){
+/* whoWins() takes two parameters and evaluates who won by comparing strings
+based on the given conditions */ 
+function whoWins(userChoice, computerChoice){
+
+    if(userChoice == 'rock'){
+        switch(computerChoice){
             case "paper":
                 return "You lost! Paper beats rock";
             case "scissors":
@@ -20,8 +43,8 @@ function playRound (playerSelection, computerSelection){
                 return "Tie";
         }
     }
-    else if (playerSelection == 'paper'){
-        switch(computerSelection){
+    else if (userChoice == 'paper'){
+        switch(computerChoice){
             case "rock":
                 return "You won! Paper beats rock";
             case "scissors":
@@ -31,66 +54,52 @@ function playRound (playerSelection, computerSelection){
         }
     }
     else {
-        switch(computerSelection){
+        switch(computerChoice){
             case "rock":
                 return "You lost! Rock beats scissors";
             case "paper":
-                return "You won! Scissors beats paper";
+                return "You won! Scissors beats paper"
             default:
                 return "Tie";
         }
     }
+};
+
+/* playRound() is fired if any of the three buttons is clicked
+and runs a match of r.p.s */
+function playRound (e){
+
+    //will not run if whats being clicked doesnt have a button parent 
+    if(!e.target.classList.contains('btn')) return;
+
+    //generates a random option and stores it in a variable
+    let computerSelection = computerPlay();
+
+    //retrieves the id/user-option of the button
+    let playerSelection = e.target.id;
+
+    //used to store message to be displyed 
+    let localMessage = whoWins(playerSelection, computerSelection);
+    
+    //display message stating round winner
+    message.textContent = localMessage;
+
+    //seaches if the localmessage has 'You won' or 'You lost' and adds a point accordingly
+    addPoint(localMessage);
+
+    determineAWinner();
+    
 }
-
-// calls for a game of paper, rock, scissors
-function game() {
-
-    // keeps track of user and computers points
-    let userPoints = 0;
-    let computerPoints= 0;
-
-    //controls the while loop
-    let gameRunner = true;
-
-    // while loop will run until a player reaches 5 points
-    while(gameRunner){
-
-        // prompts user for a choice and stores in variable
-        let userSelection = prompt("paper, rock, or scissors? ").toLowerCase();
-
-        if(userSelection == 'paper'|| userSelection == 'rock' || userSelection == 'scissors'){
-            // plays one round, and returns a string stating who won and stores in a variable
-            let matchResult = playRound(userSelection, computerPlay());
-
-            //seaches if the string returned by playRound has 'You won' or 'You lost' and adds a point accordingly
-            if(matchResult.search('You won') >= 0){
-                userPoints+=1;
-                console.log("You win a point!");
-            }
-            else if(matchResult.search('You lost') >= 0){
-                computerPoints+=1;
-                console.log("Computer wins a point!");
-            }
-            else {
-                console.log("Tie no points for either party");
-            }
-
-            /* checks if any player has reached 5 points, if so it will
-            change the condition that runs the while loop and end it */
-            if(userPoints == 5 || computerPoints == 5){
-                gameRunner = false;
-            }
+function determineAWinner() {
+    if(userPoints == 5 || computerPoints == 5) {
+        if(userPoints > computerPoints){
+            message.textContent = "You won with " + userPoints + " points";
         }
         else {
-            window.alert("Invalid choice! Try agian!")
+            message.textContent = "Computer won with " + computerPoints + " points";
         }
-    }
-
-    // checks who has more points and prints a message staing who won
-    if(userPoints > computerPoints){
-        console.log("You won with " + userPoints + "points");
-    }
-    else {
-        console.log("Computer won with " + computerPoints + "points");
+        //disables buttons and stops game
+        btn.forEach(item => item.setAttribute('disabled', 'true'))
+        document.removeEventListener('click', playRound);
     }
 }
